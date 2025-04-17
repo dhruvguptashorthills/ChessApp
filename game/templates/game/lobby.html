@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Chess Lobby{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="mb-4">♟️ Welcome to <span class="text-primary">Django Chess</span></h1>
+
+    {% if not user.is_authenticated %}
+        <p class="lead">
+            <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">Login</a>
+            <a class="btn btn-outline-success" href="{% url 'signup' %}">Sign Up</a>
+        </p>
+    {% else %}
+        <div class="mb-4">
+            <form action="{% url 'create_room' %}" method="get">
+                <button type="submit" class="btn btn-primary btn-lg">🎮 Create New Room</button>
+            </form>
+        </div>
+
+        <div class="mb-4">
+            <form action="{% url 'join_room' %}" method="post" class="d-flex justify-content-center align-items-center gap-2">
+                {% csrf_token %}
+                <input type="text" name="room_id" class="form-control w-auto" placeholder="Enter Room ID" required>
+                <button type="submit" class="btn btn-outline-secondary">🔗 Join Room</button>
+            </form>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
