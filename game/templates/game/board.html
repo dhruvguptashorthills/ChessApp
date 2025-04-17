@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -34,9 +35,17 @@
 <body class="bg-light">
 
 <div class="container py-4 text-center">
-    <h2 class="mb-3">♟️ Multiplayer Chess</h2>
+    <h2 class="mb-3">♟️ Chess</h2>
     <p><strong>{{ username }}</strong> is playing as <span class="text-capitalize fw-bold text-primary">{{ color }}</span></p>
-
+    <div class="row mb-4">
+        <div class="col text-end">
+            <h5>⏱️ White: <span id="whiteTimer">01:40</span></h5>
+        </div>
+        <div class="col text-start">
+            <h5>⏱️ Black: <span id="blackTimer">01:40</span></h5>
+        </div>
+    </div>
+    
     <div id="board" class="mb-4"></div>
 
     <div id="status" class="mb-3 text-muted">Connecting...</div>
@@ -77,6 +86,7 @@
 
     // Connect to the WebSocket
     socket.onopen = () => {
+        
         document.getElementById("status").textContent = "✅ Connected";
     };
     socket.onerror = function (event) {
@@ -106,10 +116,13 @@
     
         if (move !== null) {
             board.position(game.fen());
-    
+
             if (game.in_checkmate()) {
-                const winner = data.username === username ? "You win! (checkmate)" : "You lose! (checkmate)";
-                showModal(`🏁 ${winner}`);
+                const msg = data.username === username ? "You win! (checkmate)" : "You lose! (checkmate)";
+                showModal(`🏁 ${msg}`);
+                clearInterval(timerInterval);
+            } else {
+                startTimerFor(color);  // start timer for you, it’s your turn now
             }
         }
     };
@@ -118,7 +131,47 @@
         resign: true,
         username: username
     })); {% endcomment %}
-    
+    let whiteTime = 100;     let blackTime = 100;
+    let timerInterval = null;
+
+    const whiteTimerEl = document.getElementById('whiteTimer');
+    const blackTimerEl = document.getElementById('blackTimer');
+
+    function formatTime(seconds) {
+        const min = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+        return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+    }
+
+    function updateTimers() {
+        whiteTimerEl.textContent = formatTime(whiteTime);
+        blackTimerEl.textContent = formatTime(blackTime);
+    }
+
+    function startTimerFor(color) {
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if (color === 'white') {
+                whiteTime--;
+                updateTimers();
+                if (whiteTime <= 0) {
+                    clearInterval(timerInterval);
+                    showModal("White ran out of time! ⌛ Black wins!");
+                    resignBtn.disabled = true;
+                }
+            } else if (color === 'black') {
+                blackTime--;
+                updateTimers();
+                if (blackTime <= 0) {
+                    clearInterval(timerInterval);
+                    showModal("Black ran out of time! ⌛ White wins!");
+                    resignBtn.disabled = true;
+                }
+            }
+        }, 1000);
+    } // seconds
+
+
 
 
     const board = Chessboard('board', {
@@ -169,9 +222,14 @@
                 console.error("❌ WebSocket not open. Move not sent.");
             }
             if (game.in_checkmate()) {
-                const winner = "You win! (checkmate)";
-                showModal(`🏁 ${winner}`);
+                showModal("You win! (checkmate)");
+                clearInterval(timerInterval);  // stop timer
+            } 
+            else {
+                // switch timer to opponent
+                startTimerFor(color === 'white' ? 'black' : 'white');
             }
+            
             
         }
     });

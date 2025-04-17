@@ -6,7 +6,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 
-
 def lobby(request):
     return render(request, 'game/lobby.html')
 @login_required
