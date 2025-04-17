@@ -1,1 +1,1 @@
-web: gunicorn chess_project.asgi:application
+web: daphne your_project_name.asgi:application --port 8000 --bind 0.0.0.0
