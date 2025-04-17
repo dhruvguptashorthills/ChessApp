@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: django-chess
+    env: python
+    buildCommand: "./manage.py collectstatic --no-input"
+    startCommand: "daphne chess_project.asgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: chess_project.settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: redis
+          property: connectionString
+
+databases:
+  - name: redis
+    databaseName: redis
+    ipAllowList: []
+    plan: free
+    type: redis
