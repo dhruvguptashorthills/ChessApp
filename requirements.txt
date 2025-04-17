@@ -10,7 +10,7 @@ channels-redis>=4.1,<5.0
 
 # --- Production tools
 whitenoise>=6.0,<7.0  # for static file serving
-
+gunicorn>=21.0,<22.0  # optional for non-ASGI worker processes
 
 # --- .env support (optional, for local dev)
 python-dotenv>=1.0,<2.0
