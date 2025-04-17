@@ -20,3 +20,6 @@ python-chess>=1.9,<2.0  # only needed if you process game logic on server
 
 # --- Security headers (optional)
 django-environ>=0.10,<1.0
+
+# --- ASGI server
+uvicorn>=0.22,<1.0
