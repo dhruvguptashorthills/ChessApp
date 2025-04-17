@@ -1,1 +1,1 @@
-web: daphne your_project_name.asgi:application --port 8000 --bind 0.0.0.0
+web: gunicorn your_project_name.wsgi:application --bind 0.0.0.0:8080
