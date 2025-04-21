@@ -78,7 +78,7 @@
     const roomId = "{{ room_id }}";
     const username = "{{ username }}";
     const color = "{{ color }}";  // passed from Django
-    const socket = new WebSocket(`ws://${window.location.host}/ws/game/${roomId}/`);
+    const socket = new WebSocket(`wss://${window.location.host}/ws/game/${roomId}/`);
     const resignBtn = document.getElementById("resignBtn");
 
 
