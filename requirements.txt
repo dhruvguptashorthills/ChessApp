@@ -1,25 +1,25 @@
 # --- Core Django
-Django>=5.0,<6.0
+Django==5.2
 
 # --- WebSockets via Django Channels
-channels>=4.0,<5.0
-daphne>=4.0,<5.0
+channels==4.22
+daphne==4.1.2
 
 # --- Redis as channel layer backend
-channels-redis>=4.1,<5.0
+channels-redis==4.2.1
 
 # --- Production tools
-whitenoise>=6.0,<7.0  # for static file serving
-gunicorn>=21.0,<22.0  # optional for non-ASGI worker processes
-
+whitenoise==6.9.0  # for static file serving
+gunicorn==23.0.0
 # --- .env support (optional, for local dev)
-python-dotenv>=1.0,<2.0
+python-dotenv==1.0.1
 
 # --- Chessboard logic (optional, for backend move validation if needed)
-python-chess>=1.9,<2.0  # only needed if you process game logic on server
+python-chess==1.999  # only needed if you process game logic on server
 
 # --- Security headers (optional)
 django-environ>=0.10,<1.0
 
 # --- ASGI server
-uvicorn>=0.22,<1.0
+uvicorn==0.34.0
+
