@@ -56,6 +56,9 @@ CSRF_TRUSTED_ORIGINS = [
     "https://chessapp-niut.onrender.com",
 ]
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
 ROOT_URLCONF = 'chess_project.urls'
 
 LOGIN_URL = '/accounts/login/'
