@@ -52,6 +52,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://chessapp-niut.onrender.com",
+]
+
 ROOT_URLCONF = 'chess_project.urls'
 
 LOGIN_URL = '/accounts/login/'
